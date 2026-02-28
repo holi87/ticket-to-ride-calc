@@ -1,35 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { AppShell } from './components/Layout/AppShell';
+import { EditionPicker } from './components/GameSetup/EditionPicker';
+import { PlayerSetup } from './components/GameSetup/PlayerSetup';
+import { useStep } from './store/gameStore';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+function ScoreInputPlaceholder() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="text-center py-20 text-[#9ca3af]">
+      <div className="text-5xl mb-4">✏️</div>
+      <p className="text-lg font-medium text-[#f5f0e8]">Wprowadzanie punktów</p>
+      <p className="text-sm mt-1">Faza 4 — wkrótce</p>
+    </div>
+  );
 }
 
-export default App
+function ResultsPlaceholder() {
+  return (
+    <div className="text-center py-20 text-[#9ca3af]">
+      <div className="text-5xl mb-4">🏆</div>
+      <p className="text-lg font-medium text-[#f5f0e8]">Wyniki i podium</p>
+      <p className="text-sm mt-1">Faza 5 — wkrótce</p>
+    </div>
+  );
+}
+
+function StepView() {
+  const step = useStep();
+
+  switch (step) {
+    case 'edition': return <EditionPicker />;
+    case 'players': return <PlayerSetup />;
+    case 'scoring': return <ScoreInputPlaceholder />;
+    case 'results': return <ResultsPlaceholder />;
+  }
+}
+
+export function App() {
+  return (
+    <AppShell>
+      <StepView />
+    </AppShell>
+  );
+}
+
+export default App;
