@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Node
+node_modules/
+dist/
+.env
+.env.local
+
+# Vite
+*.local
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Testing
+coverage/
