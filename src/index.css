@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+  /* Vintage TTR palette */
+  --color-ttr-bg-dark:     #1a1a2e;
+  --color-ttr-bg-mid:      #16213e;
+  --color-ttr-bg-card:     #0f3460;
+  --color-ttr-gold:        #d4a574;
+  --color-ttr-gold-light:  #e8c49a;
+  --color-ttr-burgundy:    #8b0000;
+  --color-ttr-burgundy-lt: #b91c1c;
+  --color-ttr-cream:       #f5f0e8;
+  --color-ttr-muted:       #9ca3af;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #1a1a2e;
+  color: #f5f0e8;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
