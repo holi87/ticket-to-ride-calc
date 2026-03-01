@@ -20,14 +20,18 @@ Pełna specyfikacja projektu: `docs/SPEC.md` — **ZAWSZE przeczytaj ją przed r
 
 ### Wersjonowanie — OBOWIĄZKOWE przed każdym commitem
 
-Format: **X.Y** (major.minor), np. `1.3`.
+Format: **X.Y.Z** (główna.major.minor), np. `1.2.3`.
+- **X** — główna wersja (zmiana architektury, pełny rewrite)
+- **Y** — major (nowa funkcja, nowa edycja, istotna zmiana UI)
+- **Z** — minor (bugfix, poprawka, drobna zmiana)
 
 **Przed każdym commitem:**
 1. Zwiększ wersję w `package.json` używając:
-   - `npm version minor --no-git-tag-version` — domyślnie, dla każdej iteracji (bugfix, nowa funkcja, edycja, refactor)
-   - `npm version major --no-git-tag-version` — tylko gdy prompt zawiera słowo **"major"** lub zmiana łamie kompatybilność
+   - `npm version patch --no-git-tag-version` — dla bugfixów i drobnych poprawek (Z)
+   - `npm version minor --no-git-tag-version` — dla nowych funkcji i edycji (Y)
+   - `npm version major --no-git-tag-version` — tylko gdy prompt zawiera słowo **"major"** lub zmiana łamie kompatybilność (X)
 2. Wersja jest automatycznie wstrzykiwana do UI przez Vite (`VITE_APP_VERSION`) i wyświetlana w nagłówku aplikacji.
-3. Uwzględnij numer wersji w treści commit message, np.: `feat(export): PDF/CSV/JSON (v0.3.0)`.
+3. Uwzględnij numer wersji w treści commit message, np.: `feat(export): PDF/CSV/JSON (v1.0.5)`.
 
 ### Kod
 - TypeScript strict mode — żadnych `any`, `@ts-ignore`, wyłączonych reguł.

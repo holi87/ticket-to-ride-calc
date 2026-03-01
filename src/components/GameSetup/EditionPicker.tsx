@@ -2,7 +2,6 @@ import { ALL_EDITIONS } from '../../data/editions';
 import { useGameStore, useEditionId } from '../../store/gameStore';
 import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
-import { Button } from '../ui/Button';
 import type { GameEdition } from '../../types/edition';
 
 // Icons for bonus types shown on edition cards
@@ -81,36 +80,28 @@ export function EditionPicker() {
   const selectedId = useEditionId();
   const { selectEdition, goToStep } = useGameStore();
 
-  const canContinue = selectedId !== null;
+  function handleSelect(id: string) {
+    selectEdition(id);
+    goToStep('players');
+  }
 
   return (
     <div>
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-[#f5f0e8] mb-1">Wybierz edycję</h2>
-        <p className="text-[#9ca3af]">Zasady punktacji zostaną dostosowane automatycznie.</p>
+        <p className="text-[#9ca3af]">Kliknij edycję aby przejść do dodawania graczy.</p>
       </div>
 
-      {/* Edition grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
+      {/* Edition grid — single click selects and advances */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {ALL_EDITIONS.map((edition) => (
           <EditionCard
             key={edition.id}
             edition={edition}
             selected={selectedId === edition.id}
-            onSelect={() => selectEdition(edition.id)}
+            onSelect={() => handleSelect(edition.id)}
           />
         ))}
-      </div>
-
-      {/* Footer action */}
-      <div className="flex justify-end">
-        <Button
-          size="lg"
-          disabled={!canContinue}
-          onClick={() => goToStep('players')}
-        >
-          Dalej — dodaj graczy →
-        </Button>
       </div>
     </div>
   );
