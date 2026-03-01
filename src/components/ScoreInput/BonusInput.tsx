@@ -186,20 +186,20 @@ function NumberBonus({
       <div className="flex items-center gap-3">
         <input
           type="number"
-          min={0}
+          min={-999}
           max={999}
           value={current}
           onChange={(e) => {
             const v = parseInt(e.target.value, 10);
-            onChange({ type: 'number', value: isNaN(v) || v < 0 ? 0 : v });
+            onChange({ type: 'number', value: isNaN(v) ? 0 : v });
           }}
           className="w-24 bg-white/10 border border-white/10 focus:border-[#d4a574]/60 rounded-lg px-3 py-1.5 text-center text-[#f5f0e8] font-bold text-sm outline-none tabular-nums transition-colors"
         />
         <span className={[
           'text-sm font-semibold tabular-nums',
-          current > 0 ? 'text-[#d4a574]' : 'text-[#4b5563]',
+          current > 0 ? 'text-[#d4a574]' : current < 0 ? 'text-red-400' : 'text-[#4b5563]',
         ].join(' ')}>
-          {current > 0 ? `+${current} pkt` : '—'}
+          {current > 0 ? `+${current} pkt` : current < 0 ? `${current} pkt` : '—'}
         </span>
       </div>
     </div>

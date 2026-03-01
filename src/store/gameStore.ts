@@ -65,7 +65,7 @@ export interface GameState {
   // Actions — score inputs
   // ---------------------------------------------------------------------------
   setRouteCount: (playerId: string, length: number, count: number) => void;
-  addTicket: (playerId: string) => void;
+  addTicket: (playerId: string, completed?: boolean) => void;
   updateTicket: (playerId: string, ticketId: string, patch: Partial<TicketInput>) => void;
   removeTicket: (playerId: string, ticketId: string) => void;
   setBonusInput: (playerId: string, bonusId: string, value: BonusInputValue) => void;
@@ -223,10 +223,10 @@ export const useGameStore = create<GameState>((set, get) => ({
     });
   },
 
-  addTicket: (playerId) => {
+  addTicket: (playerId, completed = true) => {
     set((s) => {
       const prev = s.scoreInputs[playerId] ?? makeInitialInput(playerId);
-      const newTicket: TicketInput = { id: nanoid(), value: 1, completed: true };
+      const newTicket: TicketInput = { id: nanoid(), value: 1, completed };
       return {
         scoreInputs: {
           ...s.scoreInputs,
