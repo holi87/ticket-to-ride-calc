@@ -1,17 +1,8 @@
 import { AppShell } from './components/Layout/AppShell';
 import { EditionPicker } from './components/GameSetup/EditionPicker';
 import { PlayerSetup } from './components/GameSetup/PlayerSetup';
+import { ScoreInputView } from './components/ScoreInput/ScoreInputView';
 import { useStep } from './store/gameStore';
-
-function ScoreInputPlaceholder() {
-  return (
-    <div className="text-center py-20 text-[#9ca3af]">
-      <div className="text-5xl mb-4">✏️</div>
-      <p className="text-lg font-medium text-[#f5f0e8]">Wprowadzanie punktów</p>
-      <p className="text-sm mt-1">Faza 4 — wkrótce</p>
-    </div>
-  );
-}
 
 function ResultsPlaceholder() {
   return (
@@ -29,7 +20,7 @@ function StepView() {
   switch (step) {
     case 'edition': return <EditionPicker />;
     case 'players': return <PlayerSetup />;
-    case 'scoring': return <ScoreInputPlaceholder />;
+    case 'scoring': return <ScoreInputView />;
     case 'results': return <ResultsPlaceholder />;
   }
 }
