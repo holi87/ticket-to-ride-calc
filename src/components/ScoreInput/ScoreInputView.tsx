@@ -45,7 +45,6 @@ function GlobalBonusesPanel() {
 
   if (globalBonuses.length === 0) return null;
 
-  // For longest_path: read from first player's input (all share same value)
   const firstPlayerId = players[0]?.id;
   const firstInput = firstPlayerId ? getPlayerInput(firstPlayerId) : null;
 
@@ -66,7 +65,6 @@ function GlobalBonusesPanel() {
       <div className="flex flex-col gap-3">
         {globalBonuses.map((bonus) => {
           if (bonus.inputType === 'radio_select_player') {
-            // Store in first player's bonusInputs (scoring.ts reads first found)
             const value = firstInput?.bonusInputs[bonus.id];
             return (
               <BonusInput
@@ -81,8 +79,6 @@ function GlobalBonusesPanel() {
               />
             );
           }
-
-          // auto_from_tickets
           return (
             <BonusInput
               key={bonus.id}
@@ -99,7 +95,7 @@ function GlobalBonusesPanel() {
 }
 
 // ---------------------------------------------------------------------------
-// Tab bar
+// Tab bar (used on mobile always, and desktop for 4+ players)
 // ---------------------------------------------------------------------------
 
 interface TabBarProps {
@@ -111,27 +107,24 @@ interface TabBarProps {
 
 function TabBar({ players, activeId, onSelect, edition }: TabBarProps) {
   return (
-    <div className="flex gap-1 overflow-x-auto pb-1 mb-4">
+    <div className="flex gap-1 overflow-x-auto pb-1 mb-4 scrollbar-hide">
       {players.map((player) => {
         const colorDef = edition.playerColors.find((c) => c.id === player.colorId);
         const hex = colorDef?.hex ?? '#9ca3af';
         const isActive = player.id === activeId;
-
         return (
           <button
             key={player.id}
             onClick={() => onSelect(player.id)}
             className={[
-              'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-150 whitespace-nowrap cursor-pointer border',
+              'flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium',
+              'transition-all duration-150 whitespace-nowrap cursor-pointer border flex-none',
               isActive
                 ? 'border-[#d4a574] bg-[#d4a574]/15 text-[#f5f0e8]'
                 : 'border-white/10 bg-white/5 text-[#9ca3af] hover:text-[#f5f0e8] hover:border-white/20',
             ].join(' ')}
           >
-            <span
-              className="w-2.5 h-2.5 rounded-full flex-none"
-              style={{ backgroundColor: hex }}
-            />
+            <span className="w-2.5 h-2.5 rounded-full flex-none" style={{ backgroundColor: hex }} />
             {player.name}
           </button>
         );
@@ -149,143 +142,87 @@ export function ScoreInputView() {
   const players = usePlayers();
   const { getPlayerInput, computeResults, goToStep } = useGameStore();
 
-  const [activePlayerId, setActivePlayerId] = useState<string>(
-    players[0]?.id ?? '',
-  );
-
-  // Ensure active player is always valid
-  const validActiveId =
-    players.find((p) => p.id === activePlayerId)?.id ?? players[0]?.id ?? '';
+  const [activePlayerId, setActivePlayerId] = useState<string>(players[0]?.id ?? '');
+  const validActiveId = players.find((p) => p.id === activePlayerId)?.id ?? players[0]?.id ?? '';
 
   if (!edition || players.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 gap-4">
         <p className="text-[#6b7280]">Brak danych gry. Zacznij od nowa.</p>
-        <Button onClick={() => goToStep('edition')} variant="secondary">
-          ← Wróć do wyboru edycji
-        </Button>
+        <Button onClick={() => goToStep('edition')} variant="secondary">← Wróć do wyboru edycji</Button>
       </div>
     );
   }
 
-  // Desktop side-by-side for ≤ 3 players; tabs for all sizes (fallback)
-  const sideBySide = players.length <= 3;
-
-  function handleCompute() {
-    computeResults();
-  }
+  const useSideBySide = players.length <= 3; // on lg screens only
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6">
       {/* Page header */}
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-[#f5f0e8]">Wprowadź wyniki</h2>
-        <p className="text-[#6b7280] text-sm mt-1">
-          {edition.nameShort} · {players.length} graczy
-        </p>
+      <div className="mb-4 sm:mb-6">
+        <h2 className="text-xl sm:text-2xl font-bold text-[#f5f0e8]">Wprowadź wyniki</h2>
+        <p className="text-[#6b7280] text-sm mt-1">{edition.nameShort} · {players.length} graczy</p>
       </div>
 
-      {/* Global bonuses (longest_path, globetrotter) */}
+      {/* Global bonuses */}
       <GlobalBonusesPanel />
 
-      {/* Side-by-side layout (desktop, ≤ 3 players) */}
-      {sideBySide ? (
-        <div
-          className={[
-            'grid gap-4',
-            players.length === 2 ? 'grid-cols-2' : 'grid-cols-3',
-          ].join(' ')}
-        >
-          {players.map((player) => {
-            const input = getPlayerInput(player.id);
-            return (
-              <div
-                key={player.id}
-                className="rounded-xl border border-white/10 bg-white/3 p-5"
-              >
-                <PlayerScoreForm
-                  player={player}
-                  edition={edition}
-                  input={input}
-                />
-              </div>
-            );
-          })}
-        </div>
-      ) : (
-        /* Tab layout (4+ players or mobile) */
-        <div>
-          <TabBar
-            players={players}
-            activeId={validActiveId}
-            onSelect={setActivePlayerId}
-            edition={edition}
-          />
-
-          {/* Active player form */}
-          {players
-            .filter((p) => p.id === validActiveId)
-            .map((player) => {
-              const input = getPlayerInput(player.id);
-              return (
-                <div
-                  key={player.id}
-                  className="rounded-xl border border-white/10 bg-white/3 p-5"
-                >
-                  <PlayerScoreForm
-                    player={player}
-                    edition={edition}
-                    input={input}
-                  />
-                </div>
-              );
-            })}
-
-          {/* Player navigation arrows */}
-          <div className="flex justify-between mt-4">
-            {(() => {
-              const idx = players.findIndex((p) => p.id === validActiveId);
-              const prev = players[idx - 1];
-              const next = players[idx + 1];
-              return (
-                <>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    disabled={!prev}
-                    onClick={() => prev && setActivePlayerId(prev.id)}
-                  >
-                    ← {prev?.name ?? ''}
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    disabled={!next}
-                    onClick={() => next && setActivePlayerId(next.id)}
-                  >
-                    {next?.name ?? ''} →
-                  </Button>
-                </>
-              );
-            })()}
-          </div>
+      {/* ── Desktop side-by-side (lg+, ≤3 players) ── */}
+      {useSideBySide && (
+        <div className={[
+          'hidden lg:grid gap-4',
+          players.length === 2 ? 'grid-cols-2' : 'grid-cols-3',
+        ].join(' ')}>
+          {players.map((player) => (
+            <div key={player.id} className="rounded-xl border border-white/10 bg-white/3 p-5">
+              <PlayerScoreForm player={player} edition={edition} input={getPlayerInput(player.id)} />
+            </div>
+          ))}
         </div>
       )}
 
+      {/* ── Tab layout: always on mobile, always for 4+ players ── */}
+      <div className={useSideBySide ? 'lg:hidden' : ''}>
+        <TabBar
+          players={players}
+          activeId={validActiveId}
+          onSelect={setActivePlayerId}
+          edition={edition}
+        />
+
+        {/* Active player form */}
+        {players
+          .filter((p) => p.id === validActiveId)
+          .map((player) => (
+            <div key={player.id} className="rounded-xl border border-white/10 bg-white/3 p-4 sm:p-5">
+              <PlayerScoreForm player={player} edition={edition} input={getPlayerInput(player.id)} />
+            </div>
+          ))}
+
+        {/* Prev / Next navigation */}
+        {(() => {
+          const idx = players.findIndex((p) => p.id === validActiveId);
+          const prev = players[idx - 1];
+          const next = players[idx + 1];
+          return (
+            <div className="flex justify-between mt-4">
+              <Button variant="ghost" size="sm" disabled={!prev} onClick={() => prev && setActivePlayerId(prev.id)}>
+                ← {prev?.name ?? ''}
+              </Button>
+              <Button variant="ghost" size="sm" disabled={!next} onClick={() => next && setActivePlayerId(next.id)}>
+                {next?.name ?? ''} →
+              </Button>
+            </div>
+          );
+        })()}
+      </div>
+
       {/* Bottom actions */}
-      <div className="mt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-        <Button
-          variant="secondary"
-          onClick={() => goToStep('players')}
-        >
+      <div className="mt-8 flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3">
+        <Button variant="secondary" onClick={() => goToStep('players')}>
           ← Wróć do graczy
         </Button>
-
-        <Button
-          variant="primary"
-          size="lg"
-          onClick={handleCompute}
-        >
+        <Button variant="primary" size="lg" onClick={() => computeResults()}>
           Oblicz wyniki 🎉
         </Button>
       </div>

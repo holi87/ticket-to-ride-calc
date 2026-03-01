@@ -38,7 +38,7 @@ function PodiumSlot({ score, rank, edition, players }: PodiumSlotProps) {
           {cfg.label}
         </span>
         <div
-          className="w-14 h-14 rounded-full border-4 flex items-center justify-center font-black text-white text-xl shadow-lg"
+          className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-4 flex items-center justify-center font-black text-white text-lg sm:text-xl shadow-lg"
           style={{ backgroundColor: hex, borderColor: hex + 'aa' }}
         >
           {(score.playerName[0] ?? '?').toUpperCase()}
@@ -95,7 +95,7 @@ export function Podium({ rankedScores, edition, players }: PodiumProps) {
       )}
 
       {/* Podium columns: 2nd | 1st | 3rd */}
-      <div className="flex items-end gap-4 justify-center flex-wrap">
+      <div className="flex items-end gap-2 sm:gap-4 justify-center flex-wrap">
         {/* 2nd place */}
         {second && !hasTieFirst && (
           <PodiumSlot score={second} rank={2} edition={edition} players={players} />
