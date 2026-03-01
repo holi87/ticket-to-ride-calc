@@ -9,6 +9,7 @@ import { Button } from '../ui/Button';
 import { Confetti } from './Confetti';
 import { Podium } from './Podium';
 import { ScoreBreakdown } from './ScoreBreakdown';
+import { ExportButtons } from './ExportButtons';
 
 export function ResultsView() {
   const edition = useEdition();
@@ -56,8 +57,13 @@ export function ResultsView() {
       {/* Full breakdown */}
       <ScoreBreakdown rankedScores={rankedScores} edition={edition} players={players} />
 
+      {/* Export */}
+      <div className="mt-8">
+        <ExportButtons edition={edition} players={players} rankedScores={rankedScores} />
+      </div>
+
       {/* Action buttons */}
-      <div className="flex flex-col sm:flex-row justify-center gap-4 mt-10">
+      <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
         <Button variant="secondary" onClick={handleEditScores}>
           ✏️ Edytuj wyniki
         </Button>
