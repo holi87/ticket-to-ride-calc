@@ -1,6 +1,24 @@
-# Roadmapa przyszłych edycji — Ticket to Ride Score Calculator
+# Roadmapa edycji — Ticket to Ride Score Calculator
 
-Ten dokument opisuje edycje zaplanowane do implementacji po MVP (USA + Europa + Nordic + Szwajcaria + Indie + Niemcy + Afryka).
+> **Stan na 2026-03-01** — Wszystkie 7 edycji bazowych zaimplementowane.
+
+## Status edycji bazowych (MVP ✅)
+
+| Edycja | Status | Gracze | Wagony | Bonusy |
+|--------|--------|--------|--------|--------|
+| USA | ✅ Stable | 2–5 | 45 | Longest Path |
+| Europa | ✅ Stable | 2–5 | 45 | Longest Path, Stacje |
+| Nordic | ✅ Stable | 2–3 | 40 | Globetrotter |
+| Szwajcaria | ✅ Stable | 2–3 | 40 | Longest Path |
+| Indie | ✅ Stable | 2–4 | 45 | Longest Path, Mandala |
+| Niemcy | 🟡 Beta | 2–5 | 45 | Globetrotter (15 pkt), Pasażerowie |
+| Afryka | 🟡 Beta | 2–5 | 45 | Globetrotter, Terrain |
+
+**Niemcy/Afryka beta:** implementacja punktacji działa poprawnie; brakuje pełnego modelowania szczegółów mechaniki pasażerów/kart terenu (gracz podaje sumę ręcznie).
+
+---
+
+Ten dokument opisuje edycje zaplanowane do implementacji po MVP.
 
 Każda edycja zawiera zweryfikowane zasady punktacji gotowe do zakodowania jako nowy obiekt konfiguracji w `src/data/editions/`.
 
@@ -218,14 +236,14 @@ Każda edycja zawiera zweryfikowane zasady punktacji gotowe do zakodowania jako 
 
 ## Podsumowanie — plan implementacji
 
-| Faza | Edycje | Złożoność |
-|---|---|---|
-| MVP (faza 1–9) | USA, Europa, Nordic, Szwajcaria, Indie, Niemcy, Afryka | Standardowa |
-| Faza 12 | **Polska** | Niska (proste zasady, mniej wagonów, country cards) |
-| Faza 13 | **Londyn** | Niska (mini gra, dzielnice) |
-| Faza 14 | **Włochy** | Średnia (region bonus z tabelą) |
-| Faza 15 | **Japonia** | Wysoka (Bullet Train scoring z bonusem/karą per ranking) |
-| Faza 16 | **World + Great Lakes** | Wysoka (dwa typy wagonów, porty) |
+| Faza | Edycje | Złożoność | Status |
+|---|---|---|---|
+| MVP ✅ | USA, Europa, Nordic, Szwajcaria, Indie, Niemcy, Afryka | Standardowa | Zrobione |
+| Faza 12 | **Polska** | Niska (proste zasady, mniej wagonów, country cards) | Planned |
+| Faza 13 | **Londyn** | Niska (mini gra, dzielnice) | Planned |
+| Faza 14 | **Włochy** | Średnia (region bonus z tabelą) | Planned |
+| Faza 15 | **Japonia** | Wysoka (Bullet Train scoring z bonusem/karą per ranking) | Planned |
+| Faza 16 | **World + Great Lakes** | Wysoka (dwa typy wagonów, porty) | Planned |
 
 **Zasada:** Każda nowa edycja = 1 nowy plik w `src/data/editions/` + ewentualnie nowy typ bonusu w `BonusType` jeśli istniejące nie wystarczają. UI nie powinien wymagać zmian.
 
