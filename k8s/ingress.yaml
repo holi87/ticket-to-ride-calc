@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ticket-to-ride-calc
+  labels:
+    app: ticket-to-ride-calc
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "30"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: ticket-to-ride.local   # replace with your actual domain
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ticket-to-ride-calc
+                port:
+                  number: 80
+  # Uncomment and fill in for TLS:
+  # tls:
+  #   - hosts:
+  #       - ticket-to-ride.example.com
+  #     secretName: ticket-to-ride-tls

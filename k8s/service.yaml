@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ticket-to-ride-calc
+  labels:
+    app: ticket-to-ride-calc
+spec:
+  selector:
+    app: ticket-to-ride-calc
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      protocol: TCP
+  type: ClusterIP
