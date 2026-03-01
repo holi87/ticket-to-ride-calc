@@ -18,6 +18,17 @@ Pełna specyfikacja projektu: `docs/SPEC.md` — **ZAWSZE przeczytaj ją przed r
 - Dodanie nowej edycji gry = dodanie jednego pliku konfiguracyjnego. Zero zmian w komponentach UI.
 - Interfejsy TypeScript w `src/types/` — source of truth dla typów.
 
+### Wersjonowanie — OBOWIĄZKOWE przed każdym commitem
+
+Format: **X.Y** (major.minor), np. `1.3`.
+
+**Przed każdym commitem:**
+1. Zwiększ wersję w `package.json` używając:
+   - `npm version minor --no-git-tag-version` — domyślnie, dla każdej iteracji (bugfix, nowa funkcja, edycja, refactor)
+   - `npm version major --no-git-tag-version` — tylko gdy prompt zawiera słowo **"major"** lub zmiana łamie kompatybilność
+2. Wersja jest automatycznie wstrzykiwana do UI przez Vite (`VITE_APP_VERSION`) i wyświetlana w nagłówku aplikacji.
+3. Uwzględnij numer wersji w treści commit message, np.: `feat(export): PDF/CSV/JSON (v0.3.0)`.
+
 ### Kod
 - TypeScript strict mode — żadnych `any`, `@ts-ignore`, wyłączonych reguł.
 - Komentarze i nazwy zmiennych/funkcji po angielsku.
