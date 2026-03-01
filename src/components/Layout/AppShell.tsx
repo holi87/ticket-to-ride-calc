@@ -18,7 +18,7 @@ export function AppShell({ children }: AppShellProps) {
         {children}
       </main>
       <footer className="border-t border-white/5 py-3 px-4 text-center">
-        <p className="text-[#3b3f5c] text-xs italic">
+        <p className="text-[#7c6a50] text-xs italic">
           Z dedykacją dla najlepszego pod słońcem syna — Dominika
           i wspaniałej partnerki i żony — Julii 🚂❤️
 
