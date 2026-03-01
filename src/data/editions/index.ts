@@ -6,9 +6,16 @@ import { SWITZERLAND_EDITION } from './switzerland';
 import { INDIA_EDITION } from './india';
 import { GERMANY_EDITION } from './germany';
 import { AFRICA_EDITION } from './africa';
+import { POLAND_EDITION } from './poland';
+import { LONDON_EDITION } from './london';
+import { ITALY_EDITION } from './italy';
+import { JAPAN_EDITION } from './japan';
+import { WORLD_EDITION } from './world';
+import { GREAT_LAKES_EDITION } from './great_lakes';
 
 /** All available editions in display order. */
 export const ALL_EDITIONS: GameEdition[] = [
+  // Core editions (stable)
   USA_EDITION,
   EUROPE_EDITION,
   NORDIC_EDITION,
@@ -16,6 +23,13 @@ export const ALL_EDITIONS: GameEdition[] = [
   INDIA_EDITION,
   GERMANY_EDITION,
   AFRICA_EDITION,
+  // Extended editions
+  POLAND_EDITION,
+  LONDON_EDITION,
+  ITALY_EDITION,
+  JAPAN_EDITION,
+  WORLD_EDITION,
+  GREAT_LAKES_EDITION,
 ];
 
 /** Look up an edition by id. Returns undefined if not found. */
@@ -31,4 +45,10 @@ export {
   INDIA_EDITION,
   GERMANY_EDITION,
   AFRICA_EDITION,
+  POLAND_EDITION,
+  LONDON_EDITION,
+  ITALY_EDITION,
+  JAPAN_EDITION,
+  WORLD_EDITION,
+  GREAT_LAKES_EDITION,
 };
